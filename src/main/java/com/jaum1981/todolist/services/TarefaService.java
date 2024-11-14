@@ -24,6 +24,11 @@ public class TarefaService {
         return  repository.findAll();
     }
 
+    public Tarefa findById(Long id) {
+        Optional<Tarefa> tarefa = repository.findById(id);
+        return tarefa.orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
     //Add Operation
     public Tarefa addTarefa(Tarefa tarefa) {
         return repository.save(tarefa);
@@ -59,7 +64,6 @@ public class TarefaService {
     private void updateData(Tarefa request, Tarefa tarefa) {
         request.setName(tarefa.getName());
         request.setCost(tarefa.getCost());
-        request.setOrdem(tarefa.getOrdem());
         request.setLimitDate(tarefa.getLimitDate());
     }
 
