@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,16 @@ public class TarefaService {
 
     @Autowired
     private TarefaRepository repository;
+
+    //List Operation
+    public List<Tarefa> listAll() {
+        return  repository.findAll();
+    }
+
+    //Add Operation
+    public Tarefa addTarefa(Tarefa tarefa) {
+        return repository.save(tarefa);
+    }
 
     //Delete Operation
     public void delete(Long id) {
@@ -30,7 +41,5 @@ public class TarefaService {
             throw new ResourceNotFoundException(id);
         }
     }
-
-    //
 
 }
