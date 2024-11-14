@@ -4,6 +4,7 @@ import com.jaum1981.todolist.services.exceptions.DataBaseException;
 import com.jaum1981.todolist.models.Tarefa;
 import com.jaum1981.todolist.repositories.TarefaRepository;
 import com.jaum1981.todolist.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,26 @@ public class TarefaService {
         } else {
             throw new ResourceNotFoundException(id);
         }
+    }
+
+    //Update Operation
+    public Tarefa updateTarefa(Long id, Tarefa tarefa) {
+        try {
+            Tarefa entity = repository.getReferenceById(id); //prepara o obj
+            updateData(entity, tarefa);
+            return repository.save(entity);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+            throw new ResourceNotFoundException(id);
+        }
+    }
+
+    //Metodo auxiliar de update
+    private void updateData(Tarefa request, Tarefa tarefa) {
+        request.setName(tarefa.getName());
+        request.setCost(tarefa.getCost());
+        request.setOrdem(tarefa.getOrdem());
+        request.setLimitDate(tarefa.getLimitDate());
     }
 
 }
