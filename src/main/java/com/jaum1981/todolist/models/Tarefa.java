@@ -11,10 +11,18 @@ public class Tarefa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "cost", nullable = false)
     private Double cost;
+
+    @Column(name = "limit_date", nullable = false)
     private Date limitDate;
-    private Integer ordem; //mudar pra inglês
+
+    @Column(name = "ordem", nullable = false)
+    private Integer ordem;
 
     public Tarefa() {
     }

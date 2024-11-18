@@ -36,13 +36,13 @@ public class TarefaController {
         return ResponseEntity.created(uri).body(tarefa);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Tarefa> updateTarefa(@PathVariable Long id, @RequestBody Tarefa tarefa) {
         tarefa = service.updateTarefa(id, tarefa);
         return ResponseEntity.ok().body(tarefa);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTarefa(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build(); //cod 204
