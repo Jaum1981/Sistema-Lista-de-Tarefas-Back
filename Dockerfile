@@ -1,5 +1,5 @@
-# Etapa 1: Construção da aplicação com Maven
-FROM maven:3.8.6-openjdk-11-slim AS build
+# Etapa 1: Usar uma imagem base com o JDK 17 para construir a aplicação
+FROM maven:3.8.6-openjdk-17-slim AS build
 
 # Definir diretório de trabalho
 WORKDIR /app
@@ -10,17 +10,17 @@ COPY . .
 # Rodar o Maven para construir o aplicativo
 RUN mvn clean install
 
-# Etapa 2: Criar a imagem de execução com o JRE (para rodar o aplicativo)
-FROM openjdk:11-jre-slim
+# Etapa 2: Criar a imagem de execução com JDK 17
+FROM openjdk:17-jre-slim
 
 # Definir diretório de trabalho para a execução
 WORKDIR /usr/app
 
-# Copiar o JAR gerado para dentro do container
+# Copiar o JAR gerado da etapa anterior
 COPY --from=build /app/target/*.jar app.jar
 
-# Expor a porta onde o Spring Boot irá rodar (8080 por padrão)
+# Expor a porta onde o Spring Boot vai rodar (8080 por padrão)
 EXPOSE 8080
 
-# Comando para rodar o aplicativo
+# Comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
