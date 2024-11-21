@@ -42,6 +42,13 @@ public class TarefaController {
         return ResponseEntity.ok().body(tarefa);
     }
 
+    @PutMapping("/reordenar")
+    public ResponseEntity<Void> reordenarTarefas(@RequestBody List<Tarefa> tarefas) {
+        service.reordenarTarefas(tarefas); // Lógica será implementada no serviço
+        return ResponseEntity.noContent().build();
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTarefa(@PathVariable Long id) {
         service.delete(id);

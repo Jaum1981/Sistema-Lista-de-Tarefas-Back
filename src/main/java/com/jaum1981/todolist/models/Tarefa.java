@@ -1,8 +1,14 @@
 package com.jaum1981.todolist.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.Internal;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_tarefa")
@@ -13,21 +19,24 @@ public class Tarefa {
     private Long id;
 
     @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
 
     @Column(name = "cost", nullable = false)
+    @NotNull
+    @Min(0)
     private Double cost;
 
     @Column(name = "limit_date", nullable = false)
-    private Date limitDate;
+    private LocalDate limitDate = LocalDate.now();
 
-    @Column(name = "ordem", nullable = false)
-    private Integer ordem;
+    @Column(name ="ordem", nullable = false)
+    private long ordem;
 
     public Tarefa() {
     }
 
-    public Tarefa(Long id, String name, Double cost, Date limitDate, Integer ordem) {
+    public Tarefa(Long id, String name, Double cost, LocalDate limitDate, long ordem) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -59,19 +68,20 @@ public class Tarefa {
         this.cost = cost;
     }
 
-    public Date getLimitDate() {
+    public LocalDate getLimitDate() {
         return limitDate;
     }
 
-    public void setLimitDate(Date limitDate) {
+    public void setLimitDate(LocalDate limitDate) {
         this.limitDate = limitDate;
     }
 
-    public Integer getOrdem() {
+    public long getOrdem() {
         return ordem;
     }
 
-    public void setOrdem(Integer ordem) {
+    public void setOrdem(long ordem) {
         this.ordem = ordem;
     }
+
 }

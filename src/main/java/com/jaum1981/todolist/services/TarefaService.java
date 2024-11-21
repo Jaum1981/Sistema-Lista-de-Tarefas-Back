@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.module.ResolutionException;
 import java.util.List;
@@ -21,7 +22,7 @@ public class TarefaService {
 
     //List Operation
     public List<Tarefa> listAll() {
-        return  repository.findAll();
+        return repository.findAll();
     }
 
     public Tarefa findById(Long id) {
@@ -31,15 +32,23 @@ public class TarefaService {
 
     //Add Operation
     public Tarefa addTarefa(Tarefa tarefa) {
+        long ordem = repository.count()+1;
+        tarefa.setOrdem(ordem);
         return repository.save(tarefa);
     }
 
     //Delete Operation
+    @Transactional
     public void delete(Long id) {
         Optional<Tarefa> tarefa = repository.findById(id);
         if (tarefa.isPresent()) {
             try {
                 repository.deleteById(id);
+                List<Tarefa> tarefas = repository.findAllByOrdemAfterOrderByOrdem(tarefa.get().getOrdem());
+                List<Tarefa> tarefasAtualizadas = tarefas.stream()
+                        .peek(tarefa1 -> tarefa1.setOrdem(tarefa1.getOrdem() - 1))
+                        .toList();
+                repository.saveAll(tarefasAtualizadas);
             } catch (DataIntegrityViolationException e) {
                 throw new DataBaseException(e.getMessage());
             }
@@ -57,6 +66,16 @@ public class TarefaService {
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             throw new ResourceNotFoundException(id);
+        }
+    }
+
+    //reordenar
+    public void reordenarTarefas(List<Tarefa> tarefas) {
+        for (Tarefa tarefa: tarefas) {
+            Tarefa existente = repository.findById(tarefa.getId())
+                    .orElseThrow(() -> new RuntimeException("Tarefa não encontrada " + tarefa.getId()));
+            existente.setOrdem(tarefa.getOrdem());
+            repository.save(existente);
         }
     }
 
