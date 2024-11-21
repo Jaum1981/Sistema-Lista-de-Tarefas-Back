@@ -10,8 +10,8 @@ COPY . .
 # Rodar o Maven para construir o aplicativo
 RUN mvn clean install
 
-# Etapa 2: Criar a imagem de execução com JDK 17
-FROM openjdk:17-jre-slim
+# Etapa 2: Criar a imagem de execução com JDK 17 (usando openjdk:17-slim)
+FROM openjdk:17-slim
 
 # Definir diretório de trabalho para a execução
 WORKDIR /usr/app
