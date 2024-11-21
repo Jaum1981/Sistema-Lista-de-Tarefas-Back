@@ -4,10 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.Internal;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -33,6 +29,8 @@ public class Tarefa {
     @Column(name ="ordem", nullable = false)
     private long ordem;
 
+    private Boolean completed = false;
+
     public Tarefa() {
     }
 
@@ -42,6 +40,7 @@ public class Tarefa {
         this.cost = cost;
         this.limitDate = limitDate;
         this.ordem = ordem;
+        this.completed = false;
     }
 
     public Long getId() {
@@ -84,4 +83,11 @@ public class Tarefa {
         this.ordem = ordem;
     }
 
+    public Boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
 }

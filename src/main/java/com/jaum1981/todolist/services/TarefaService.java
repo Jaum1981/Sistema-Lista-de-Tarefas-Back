@@ -19,6 +19,8 @@ public class TarefaService {
 
     @Autowired
     private TarefaRepository repository;
+    @Autowired
+    private TarefaRepository tarefaRepository;
 
     //List Operation
     public List<Tarefa> listAll() {
@@ -77,6 +79,14 @@ public class TarefaService {
             existente.setOrdem(tarefa.getOrdem());
             repository.save(existente);
         }
+    }
+
+    //concluida?
+    public Tarefa atualizarStatusConcluida(Long id, Boolean completed) {
+        Tarefa tarefa = tarefaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada"));
+        tarefa.setCompleted(completed);
+        return tarefaRepository.save(tarefa);
     }
 
     //Metodo auxiliar de update

@@ -16,6 +16,8 @@ public class TarefaController {
 
     @Autowired
     private TarefaService service;
+    @Autowired
+    private TarefaService tarefaService;
 
     @GetMapping
     public ResponseEntity<List<Tarefa>> listAll() {
@@ -46,6 +48,12 @@ public class TarefaController {
     public ResponseEntity<Void> reordenarTarefas(@RequestBody List<Tarefa> tarefas) {
         service.reordenarTarefas(tarefas); // Lógica será implementada no serviço
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/completed")
+    public ResponseEntity<Tarefa> marcarComoCncluída(@PathVariable Long id, @RequestBody Boolean completed) {
+        Tarefa tarefa = tarefaService.atualizarStatusConcluida(id, completed);
+        return ResponseEntity.ok(tarefa);
     }
 
 
