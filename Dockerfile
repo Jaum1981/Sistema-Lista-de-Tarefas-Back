@@ -1,5 +1,5 @@
 # Etapa 1: Usar uma imagem base com o JDK 17 para construir a aplicação
-FROM maven:3.8.6-openjdk-17-slim AS build
+FROM maven:3.8.6-openjdk-17 AS build
 
 # Definir diretório de trabalho
 WORKDIR /app
@@ -10,7 +10,7 @@ COPY . .
 # Rodar o Maven para construir o aplicativo
 RUN mvn clean install
 
-# Etapa 2: Criar a imagem de execução com JDK 17 (usando openjdk:17-slim)
+# Etapa 2: Criar a imagem de execução com JDK 17
 FROM openjdk:17-slim
 
 # Definir diretório de trabalho para a execução
