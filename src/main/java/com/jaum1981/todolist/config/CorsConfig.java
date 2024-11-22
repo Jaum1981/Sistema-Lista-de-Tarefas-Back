@@ -15,8 +15,7 @@ public class CorsConfig implements WebMvcConfigurer {
                         "https://sistema-lista-de-tarefas-ivory.vercel.app" // Produção na Vercel
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*")
+                .allowedHeaders("Authorization", "Content-Type", "X-Requested-With", "*") // Cabeçalhos permitidos
                 .allowCredentials(true);
     }
 }
-
