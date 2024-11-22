@@ -12,11 +12,11 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:3000", // Desenvolvimento local
-                        "https://sistema-lista-de-tarefas-ivory.vercel.app" // URL da Vercel
+                        "https://sistema-lista-de-tarefas-ivory.vercel.app" // Produção na Vercel
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
-
     }
 }
+
